@@ -25,26 +25,6 @@ The core problem we're tackling is the lack of easily accessible, accurate, and 
 3. **Data Transformation**: Implemented dbt (data build tool) for processing raw data in Snowflake.
 4. **Data Visualization**: Created interactive visualizations and dashboards using Plotly's Dash framework.
 
-## Key Findings
-
-- Significant speed differences between Green Line B and Orange Line.
-- Variations in operational efficiency, dwell times, and headway consistency between lines.
-- Seasonal patterns affecting average speeds.
-- Recent improvements in speed and dwell times for both lines.
-
-## Recommendations
-
-1. Infrastructure improvements for slower lines.
-2. Operational adjustments to reduce dwell times.
-3. Enhanced scheduling strategies for more consistent service.
-4. Seasonal adjustments to counteract weather-related slowdowns.
-
-## Future Work
-
-- Developing predictive models for delays and service disruptions.
-- Conducting user experience studies.
-- Integrating real-time transit data into broader urban planning initiatives.
-- Performing longitudinal analysis to assess the impact of implemented recommendations.
 
 ## Acknowledgments
 
