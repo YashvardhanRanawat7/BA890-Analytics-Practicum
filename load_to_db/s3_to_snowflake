@@ -1,0 +1,58 @@
+import os
+import snowflake.connector
+
+S3_BUCKET_NAME='mbtadata'
+S3_FOLDER='s3://mbtadata/index_file/'
+AWS_ACCESS_KEY=''
+AWS_SECRET_KEY = ''
+AWS_REGION = 'us-east-2'
+
+# Set OCSP Fail Open to true to bypass potential network issues
+os.environ['SNOWFLAKE_OCSP_FAIL_OPEN'] = 'true'
+
+def bulk_load_from_s3_to_snowflake():
+    conn = None
+    cur = None
+    try:
+        # Connect to Snowflake
+        conn = snowflake.connector.connect(
+            user=SNOWFLAKE_USER,
+            password=SNOWFLAKE_PASSWORD,
+            account=SNOWFLAKE_ACCOUNT,
+            warehouse=SNOWFLAKE_WAREHOUSE,
+            database=SNOWFLAKE_DATABASE,
+            schema=SNOWFLAKE_SCHEMA,
+            role=SNOWFLAKE_ROLE
+        )
+
+        # Create a cursor object
+        cur = conn.cursor()
+
+        # Construct the COPY INTO command
+        copy_command = f"""
+        COPY INTO {SNOWFLAKE_TABLE_NAME}
+        FROM '@{SNOWFLAKE_STAGE_NAME}/{S3_FILE_PREFIX}'
+        FILE_FORMAT = (TYPE = 'CSV' FIELD_OPTIONALLY_ENCLOSED_BY = '\"')
+        PATTERN = '.*.csv$'
+        ON_ERROR = 'CONTINUE';
+        """
+
+        # Execute the COPY INTO command
+        cur.execute(copy_command)
+        print(f"Files successfully loaded into {SNOWFLAKE_TABLE_NAME}")
+
+        # Commit the transaction
+        conn.commit()
+
+    except Exception as e:
+        print(f"Error loading files from S3 to Snowflake: {e}")
+    
+    finally:
+        # Close the cursor and connection if they were successfully created
+        if cur is not None:
+            cur.close()
+        if conn is not None:
+            conn.close()
+
+if __name__ == "__main__":
+    bulk_load_from_s3_to_snowflake()
