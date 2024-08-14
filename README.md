@@ -31,5 +31,3 @@ The core problem we're tackling is the lack of easily accessible, accurate, and 
 - MBTA for providing the API and data
 - TransitMatters for inspiration and resources
 - Plotly team for the Dash framework
-
-For more detailed information, please refer to the full paper in the `docs/` directory.
